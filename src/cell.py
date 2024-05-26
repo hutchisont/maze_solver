@@ -6,17 +6,17 @@ color_red = "red"
 color_gray = "gray"
 
 class Cell:
-    def __init__(self, window: Window, x1: int, y1: int, x2: int, y2: int):
+    def __init__(self, window: Window):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
 
         self.__window = window
-        self.__x1 = x1
-        self.__y1 = y1
-        self.__x2 = x2
-        self.__y2 = y2
+        self.__x1 = None
+        self.__y1 = None
+        self.__x2 = None
+        self.__y2 = None
 
     def __repr__(self):
         return f"""has left: {self.has_left_wall}
@@ -78,6 +78,4 @@ y2: {self.__y2}"""
 
         my_center = self.get_center_point()
         other_center = to_cell.get_center_point()
-        print(my_center)
-        print(other_center)
         self.__window.draw_line(Line(my_center, other_center), color)
