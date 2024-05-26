@@ -5,8 +5,9 @@ color_black = "black"
 color_red = "red"
 color_gray = "gray"
 
+
 class Cell:
-    def __init__(self, window: Window):
+    def __init__(self, window: Window = None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -27,8 +28,6 @@ x1: {self.__x1}
 x2: {self.__x2}
 y1: {self.__y1}
 y2: {self.__y2}"""
-
-
 
     def draw(self, top_left_X: int, top_left_Y: int, bot_right_X: int, bot_right_Y: int):
         self.__x1 = top_left_X

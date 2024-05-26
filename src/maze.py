@@ -11,7 +11,7 @@ class Maze:
         num_cols,
         cell_size_x,
         cell_size_y,
-        win,
+        win=None,
     ):
         self.x1 = x1
         self.y1 = y1
@@ -26,8 +26,10 @@ class Maze:
         self._create_cells()
 
     def _create_cells(self):
-        self._cells = [[Cell(self.win) for _ in range(self.num_cols)]
-                       for _ in range(self.rows)]
+        self._cells = [
+            [Cell(self.win) for _ in range(self.num_rows)]
+            for _ in range(self.num_cols)
+        ]
         for i in range(self.num_cols):
             for j in range(self.num_rows):
                 self._draw_cell(i, j)
