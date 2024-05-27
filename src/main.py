@@ -1,37 +1,29 @@
-from cell import Cell
-# from line import Point, Line
 from window import Window
+from maze import Maze
+import sys
 
 
 def main():
-    win = Window(800, 600)
+    num_rows = 12
+    num_cols = 16
+    margin = 50
+    screen_x = 800
+    screen_y = 600
+    cell_size_x = (screen_x - 2 * margin) / num_cols
+    cell_size_y = (screen_y - 2 * margin) / num_rows
 
-    # p1 = Point(100, 500)
-    # p2 = Point(200, 200)
-    # p3 = Point(300, 300)
-    # p4 = Point(600, 500)
+    sys.setrecursionlimit(10000)
+    win = Window(screen_x, screen_y)
 
-    # l1 = Line(p1, p2)
-    # l2 = Line(p3, p4)
-    #
-    # win.draw_line(l1, "black")
-    # win.draw_line(l2, "black")
-
-    c1 = Cell(win, 500, 500, 600, 600)
-    c1.draw(500, 500, 600, 600)
-    c2 = Cell(win, 100, 100, 200, 200)
-    c2.has_top_wall = False
-    c2.draw(100, 100, 200, 200)
-    c3 = Cell(win, 200, 200, 300, 300)
-    c3.has_left_wall = False
-    c3.has_right_wall = False
-    c3.draw(200, 200, 300, 300)
-    c4 = Cell(win, 300, 300, 400, 400)
-    c4.has_bottom_wall = False
-    c4.has_left_wall = False
-    c4.draw(300, 300, 400, 400)
-
-    c2.draw_move(c1, True)
+    maze = Maze(margin, margin, num_rows, num_cols,
+                cell_size_x, cell_size_y, win, 10)
+    print("maze created")
+    is_solveable = maze.solve()
+    if not is_solveable:
+        print("maze can not be solved!")
+    else:
+        print("maze solved!")
+    win.wait_for_close()
 
     win.wait_for_close()
 
