@@ -4,6 +4,7 @@ from window import Window
 color_black = "black"
 color_red = "red"
 color_gray = "gray"
+color_white = "white"
 
 
 class Cell:
@@ -18,6 +19,8 @@ class Cell:
         self.__y1 = None
         self.__x2 = None
         self.__y2 = None
+
+        self.visited = False
 
     def __repr__(self):
         return f"""has left: {self.has_left_wall}
@@ -35,25 +38,25 @@ y2: {self.__y2}"""
         self.__x2 = bot_right_X
         self.__y2 = bot_right_Y
 
-        if self.has_left_wall:
-            bot = Line(Point(top_left_X, top_left_Y),
-                       Point(top_left_X, bot_right_Y))
-            self.__window.draw_line(bot, color_black)
+        left = Line(Point(top_left_X, top_left_Y),
+                    Point(top_left_X, bot_right_Y))
+        color = color_black if self.has_left_wall else color_white
+        self.__window.draw_line(left, color)
 
-        if self.has_right_wall:
-            right = Line(Point(bot_right_X, bot_right_Y),
-                         Point(bot_right_X, top_left_Y))
-            self.__window.draw_line(right, color_black)
+        right = Line(Point(bot_right_X, bot_right_Y),
+                     Point(bot_right_X, top_left_Y))
+        color = color_black if self.has_right_wall else color_white
+        self.__window.draw_line(right, color)
 
-        if self.has_top_wall:
-            top = Line(Point(top_left_X, top_left_Y),
-                       Point(bot_right_X, top_left_Y))
-            self.__window.draw_line(top, color_black)
+        top = Line(Point(top_left_X, top_left_Y),
+                   Point(bot_right_X, top_left_Y))
+        color = color_black if self.has_top_wall else color_white
+        self.__window.draw_line(top, color)
 
-        if self.has_bottom_wall:
-            bot = Line(Point(top_left_X, bot_right_Y),
-                       Point(bot_right_X, bot_right_Y))
-            self.__window.draw_line(bot, color_black)
+        bot = Line(Point(top_left_X, bot_right_Y),
+                   Point(bot_right_X, bot_right_Y))
+        color = color_black if self.has_bottom_wall else color_white
+        self.__window.draw_line(bot, color)
 
     def get_center_point(self) -> Point:
         center_x = 0

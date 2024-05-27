@@ -1,4 +1,5 @@
 from cell import Cell
+import random
 import time
 
 
@@ -12,6 +13,7 @@ class Maze:
         cell_size_x,
         cell_size_y,
         win=None,
+        seed=None,
     ):
         self.x1 = x1
         self.y1 = y1
@@ -22,6 +24,9 @@ class Maze:
         self.win = win
 
         self._cells = []
+
+        if seed is not None:
+            random.seed(seed)
 
         self._create_cells()
 
@@ -56,3 +61,50 @@ class Maze:
         # doesn't just murder the devices processor and potentially do its thing
         # so quick we can't really see it?
         time.sleep(0.05)
+
+    def _break_entrance_and_exit(self):
+        last_cell_i = self.num_cols - 1
+        last_cell_j = self.num_rows - 1
+
+        self._cells[0][0].has_top_wall = False
+        self._cells[last_cell_i][last_cell_j].has_bottom_wall = False
+
+        self._draw_cell(0, 0)
+        self._draw_cell(last_cell_i, last_cell_j)
+
+    def _break_walls_r(self, i, j):
+        self._cells[i][j].visited = True
+
+        while True:
+            to_visit = []
+
+            if i > 0 and not self._cells[i - 1][j].visited:
+                to_visit.append((i - 1, j))
+            if i < self.num_cols - 1 and not self._cells[i + 1][j].visited:
+                to_visit.append((i + 1, j))
+            if j > 0 and not self._cells[i][j - 1].visited:
+                to_visit.append((i, j - 1))
+            if j < self.num_rows - 1 and not self._cells[i][j + 1].visited:
+                to_visit.append((i, j + 1))
+
+            if len(to_visit) == 0:
+                self._draw_cell(i, j)
+                return
+
+            random_direction = random.randrange(len(to_visit))
+            next = to_visit[random_direction]
+
+            if next[0] == i + 1:
+                self._cells[i][j].has_right_wall = False
+                self._cells[i + 1][j].has_left_wall = False
+            if next[0] == i - 1:
+                self._cells[i][j].has_left_wall = False
+                self._cells[i - 1][j].has_right_wall = False
+            if next[1] == j + 1:
+                self._cells[i][j].has_bottom_wall = False
+                self._cells[i][j + 1].has_top_wall = False
+            if next[1] == j - 1:
+                self._cells[i][j].has_top_wall = False
+                self._cells[i][j - 1].has_bottom_wall = False
+
+            self._break_walls_r(next[0], next[1])
