@@ -30,7 +30,8 @@ has bottom: {self.has_bottom_wall}
 x1: {self.__x1}
 x2: {self.__x2}
 y1: {self.__y1}
-y2: {self.__y2}"""
+y2: {self.__y2}
+visited: {self.visited}"""
 
     def draw(self, top_left_X: int, top_left_Y: int, bot_right_X: int, bot_right_Y: int):
         self.__x1 = top_left_X
